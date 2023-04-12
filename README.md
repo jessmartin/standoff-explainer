@@ -1,4 +1,6 @@
-# SvelteKit Starter
+# Standoff Explainer
+
+This is a visualizer of how standoff-based markup represents annotations and converts those into rich text.
 
 ## Developing
 
