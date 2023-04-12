@@ -16,6 +16,8 @@
   let colors = ['red', 'yellow', 'green', 'blue', 'indigo', 'purple', 'pink']
 
   const nonEmptyAnnotations = (annotations: Mark[]) => annotations.filter((a) => a.start !== a.end)
+
+  const knownAnnotations = { bold: 'b', italic: 'i' }
 </script>
 
 <svelte:head>
@@ -83,8 +85,9 @@
   <br />
   {#each textContent.split('') as char, i}
     <span
-      class="inline-block text-xl p-3 bg-white dark:bg-slate-700 rounded-md mr-2 w-10 h-12 text-center"
-      >{@html char === ' ' ? '&#160;' : char}</span
+      class="inline-block font-mono text-xl p-3 bg-white dark:bg-slate-700 rounded-md mr-2 w-10 h-12 text-center"
+    >
+      {@html char === ' ' ? '&#160;' : char}</span
     >
   {/each}
 
