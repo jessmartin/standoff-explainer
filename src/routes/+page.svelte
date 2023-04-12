@@ -18,6 +18,10 @@
   const nonEmptyAnnotations = (annotations: Mark[]) => annotations.filter((a) => a.start !== a.end)
 </script>
 
+<svelte:head>
+  <title>Standoff Markup Explainer</title>
+</svelte:head>
+
 <span class="text-gray-400 fixed bottom-0 right-0 font-mono text-sm p-2"
   >An experiment by <a class="hover:underline hover:text-gray-500" href="https://jessmart.in"
     >Jess Martin</a
