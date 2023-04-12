@@ -2,7 +2,7 @@
 
 This is a visualizer of how standoff-based markup represents annotations and converts those into rich text.
 
-![Demo Video](https://github.com/jessmartin/standoff-explainer/blob/main/docs/standoff.mp4)
+https://github.com/jessmartin/standoff-explainer/blob/main/docs/standoff.mp4
 
 Explore the [live demo](https://standoff.jessmart.in) yourself!
 
