@@ -18,37 +18,54 @@
   const nonEmptyAnnotations = (annotations: Mark[]) => annotations.filter((a) => a.start !== a.end)
 </script>
 
+<span class="text-gray-400 fixed bottom-0 right-0 font-mono text-sm p-2"
+  >An experiment by <a class="hover:underline hover:text-gray-500" href="https://jessmart.in"
+    >Jess Martin</a
+  >.
+  <a
+    class="hover:underline hover:text-gray-500"
+    href="https://github.com/jessmartin/standoff-explainer">Source code on GitHub</a
+  >.
+</span>
+
 <div class="mb-4 border-gray-300 border-2 rounded-md p-3">
   <p class="font-mono px-2 mb-1 text-xl">Text Content</p>
-  <input bind:value={textContent} class="w-full p-2 mb-2" />
+  <input bind:value={textContent} class="w-full p-2 mb-2 rounded-md" />
 
-  <p class="font-mono px-2 mb-1 text-xl">Annotations</p>
+  <p class="font-mono px-2 mb-1 text-xl">
+    Annotations
+
+    <button
+      on:click={() => {
+        annotations.push({ start: 0, end: 0, type: '' })
+        annotations = annotations
+      }}
+      class="text-sm p-2 bg-gray-200 font-mono rounded-md text-gray-500 hover:bg-gray-300"
+      >Add Annotation</button
+    >
+  </p>
   {#each annotations as annotation}
     <div class="flex mb-2">
       <input
         bind:value={annotation.start}
-        class="w-1/8 p-2 mr-2 border border-gray-300 rounded-md"
+        class="w-10 p-2 mr-2 border border-gray-300 rounded-md font-mono"
       />
-      <input bind:value={annotation.end} class="w-1/8 p-2 mr-2 border border-gray-300 rounded-md" />
+      <input
+        bind:value={annotation.end}
+        class="w-10 p-2 mr-2 border border-gray-300 rounded-md font-mono"
+      />
       <input
         bind:value={annotation.type}
-        class="w-1/8 p-2 mr-2 border border-gray-300 rounded-md"
+        class="w-1/8 p-2 mr-2 border border-gray-300 rounded-md font-mono"
       />
       <button
         on:click={() => (annotations = annotations.filter((a) => a !== annotation))}
-        class="w-1/8 p-2 border border-gray-300 rounded-md"
+        class="w-1/8 p-2 bg-gray-200 font-mono rounded-md text-gray-500 hover:bg-gray-300 text-sm"
       >
-        Delete
+        Remove
       </button>
     </div>
   {/each}
-  <button
-    on:click={() => {
-      annotations.push({ start: 0, end: 0, type: '' })
-      annotations = annotations
-    }}
-    class="p-2 border border-gray-300 rounded-md">Add</button
-  >
 </div>
 
 <p class="font-mono px-2 mb-1 text-xl">Standoff Markup</p>

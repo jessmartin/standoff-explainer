@@ -2,6 +2,8 @@
 
 This is a visualizer of how standoff-based markup represents annotations and converts those into rich text.
 
+[Live demo](https://standoff.jessmart.in)
+
 ## Developing
 
 To start the development server:
