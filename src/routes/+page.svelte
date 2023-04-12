@@ -48,8 +48,9 @@
       >Add Annotation</button
     >
   </p>
-  {#each annotations as annotation}
+  {#each annotations as annotation, i}
     <div class="flex mb-2">
+      <span class="w-3 mr-2 bg-{colors[i]}-200 dark:bg-{colors[i]}-600 rounded-md" />
       <input
         bind:value={annotation.start}
         class="w-10 p-2 mr-2 rounded-md font-mono dark:bg-slate-600"
@@ -98,7 +99,7 @@
         style="left: {annotation.start * 48}px; width: {(annotation.end - annotation.start) * 48 -
           8}px; top: {i * 48}px;"
       >
-        {annotation.type}
+        {annotation.type}: [{annotation.start}..{annotation.end}]
       </span>
     {/each}
   </div>
