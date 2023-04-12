@@ -24,4 +24,6 @@ Preview the production build with `npm run preview`.
 
 ## Deployment
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+[![Netlify Status](https://api.netlify.com/api/v1/badges/b64fc405-2f74-46ad-8152-ce4ff29ca0bd/deploy-status)](https://app.netlify.com/sites/standoff-explainer/deploys)
+
+Deployed on [Netlify](https://netlify.com).
