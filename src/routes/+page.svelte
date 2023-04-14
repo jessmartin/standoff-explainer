@@ -17,7 +17,23 @@
 
   const nonEmptyAnnotations = (annotations: Mark[]) => annotations.filter((a) => a.start !== a.end)
 
-  const knownAnnotations = { bold: 'b', italic: 'i' }
+  const knownAnnotations: { bold: string; italic: string } = { bold: 'font-bold', italic: 'italic' }
+  const getAnnotations = (index: number): Mark[] => {
+    return nonEmptyAnnotations(annotations).filter((a) => a.start <= index && a.end > index)
+  }
+  const updateAnnotation = (e: Event, annotationIndex: number, key: string) => {
+    console.log(annotationIndex, key)
+    annotations[annotationIndex][key] = (e.target as HTMLInputElement).value
+    annotations = annotations
+    textContent = 'something'
+  }
+
+  const classesByIndex = (index: number): string => {
+    console.log('updating classes')
+    return getAnnotations(index)
+      .map((a) => knownAnnotations[a.type])
+      .join(' ')
+  }
 </script>
 
 <svelte:head>
@@ -34,7 +50,7 @@
   >.
 </span>
 
-<div class="mb-4 border-gray-300 dark:border-gray-600 border-2 rounded-md p-3">
+<div class="mb-4 border-gray-300 dark:border-gray-600 border-2 rounded-md p-3 italic">
   <p class="font-mono px-2 mb-1 text-xl">Text Content</p>
   <input bind:value={textContent} class="font-mono w-full p-2 mb-2 rounded-md dark:bg-slate-600" />
 
@@ -62,7 +78,8 @@
         class="w-10 p-2 mr-2 rounded-md font-mono dark:bg-slate-600"
       />
       <input
-        bind:value={annotation.type}
+        value={annotation.type}
+        on:input={(e) => updateAnnotation(e, i, 'type')}
         class="w-1/8 p-2 mr-2 rounded-md font-mono dark:bg-slate-600"
       />
       <button
@@ -77,7 +94,7 @@
 
 <p class="font-mono px-2 mb-1 text-xl">Standoff Markup</p>
 <div class="mb-1 pb-1 overflow-x-auto whitespace-nowrap min-h-screen">
-  {#each textContent.split('') as char, i}
+  {#each textContent.split('') as _, i}
     <span class="font-mono text-gray-300 inline-block w-10 mr-2 text-center dark:text-gray-500"
       >{i}</span
     >
@@ -85,10 +102,12 @@
   <br />
   {#each textContent.split('') as char, i}
     <span
-      class="inline-block font-mono text-xl p-3 bg-white dark:bg-slate-700 rounded-md mr-2 w-10 h-12 text-center"
+      class="inline-block font-mono text-xl p-3 bg-white dark:bg-slate-700 rounded-md mr-2 w-10 h-12 text-center {classesByIndex(
+        i
+      )}"
     >
-      {@html char === ' ' ? '&#160;' : char}</span
-    >
+      {@html char === ' ' ? '&#160;' : char}
+    </span>
   {/each}
 
   <div class="relative mt-3 bg-slate-300">
