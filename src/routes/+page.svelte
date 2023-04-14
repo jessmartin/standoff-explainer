@@ -91,7 +91,7 @@
   >.
 </span>
 
-<div class="mb-4 border-gray-300 dark:border-gray-600 border-2 rounded-md p-3 italic">
+<div class="mb-4 border-gray-300 dark:border-gray-600 border-2 rounded-md p-3">
   <p class="font-mono px-2 mb-1 text-xl">Text Content</p>
   <input bind:value={doc.text} class="font-mono w-full p-2 mb-2 rounded-md dark:bg-slate-600" />
 
