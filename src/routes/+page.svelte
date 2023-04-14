@@ -101,7 +101,7 @@
     <button
       on:click={() => {
         doc.annotations.push({ start: 0, end: 0, type: 'bold' })
-        doc.annotations = doc.annotations
+        recomputeDoc()
       }}
       class="text-sm p-2 font-mono rounded-md bg-gray-200 dark:bg-slate-700 text-gray-500 dark:text-gray-300 hover:bg-slate-300 hover:dark:bg-slate-600"
       >Add Annotation</button
@@ -112,7 +112,7 @@
       <span class="w-3 mr-2 bg-{colors[i]}-200 dark:bg-{colors[i]}-600 rounded-md" />
       <input
         value={annotation.start}
-        on:input={(e) => updateAnnotation(e, i, 'end')}
+        on:input={(e) => updateAnnotation(e, i, 'start')}
         class="w-10 p-2 mr-2 rounded-md font-mono dark:bg-slate-600"
       />
       <input
@@ -126,7 +126,10 @@
         class="w-1/8 p-2 mr-2 rounded-md font-mono dark:bg-slate-600"
       />
       <button
-        on:click={() => (doc.annotations = doc.annotations.filter((a) => a !== annotation))}
+        on:click={() => {
+          doc.annotations = doc.annotations.filter((a) => a !== annotation)
+          recomputeDoc()
+        }}
         class="w-1/8 p-2 bg-gray-200 dark:bg-slate-700 text-gray-500 dark:text-gray-300 hover:bg-slate-300 hover:dark:bg-slate-600 font-mono rounded-md text-sm "
       >
         Remove
