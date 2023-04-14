@@ -1,5 +1,5 @@
 <script lang="ts">
-  // =================================== TYPES
+  // TYPES ===================================
   type AnnotationTypes = 'bold' | 'italic' | 'comment'
 
   type Mark = {
@@ -18,7 +18,7 @@
     className: string
   }
 
-  // =================================== INITIAL STATE
+  // INITIAL STATE ===========================
 
   const knownAnnotations: Annotation[] = [
     { type: 'bold', tag: 'strong', className: 'font-bold' },
@@ -70,11 +70,29 @@
   let colors = ['red', 'yellow', 'green', 'blue', 'indigo', 'purple', 'pink']
 
   const updateAnnotation = (e: Event, annotationIndex: number, key: string) => {
-    console.log('updating this one annotation')
-    doc.annotations[annotationIndex][key] = (e.target as HTMLInputElement).value
+    let value = (e.target as HTMLInputElement).value
+    const annotation = doc.annotations[annotationIndex]
+
+    if (key === 'end' || key === 'start') {
+      let offsetValue = parseInt(value)
+      if (isNaN(offsetValue)) {
+        annotation[key] = (e.target as HTMLInputElement).value
+      } else {
+        if (key === 'end' && offsetValue > doc.text.length) {
+          offsetValue = doc.text.length
+        } else if (key === 'start' && offsetValue < 0) {
+          offsetValue = 0
+        }
+        annotation[key] = offsetValue
+      }
+    } else {
+      annotation[key] = (e.target as HTMLInputElement).value
+    }
     doc.annotations = doc.annotations
     recomputeDoc()
   }
+
+  let markupToggle: 'standoff' | 'html' = 'standoff'
 </script>
 
 <svelte:head>
@@ -91,9 +109,57 @@
   >.
 </span>
 
+<p class="font-mono px-2 mb-1 text-xl">
+  Markup Type:
+  <span><button class="" on:click={(e) => (markupToggle = 'standoff')}>Standoff</button></span>
+  <span class="text-gray-400"
+    ><button class="" on:click={() => (markupToggle = 'html')}>HTML</button></span
+  >
+</p>
+<div class="mb-1 pb-1 overflow-x-auto whitespace-nowrap h-64">
+  {#each doc.text.split('') as _, i}
+    <span class="font-mono text-gray-300 inline-block w-10 mr-2 text-center dark:text-gray-500"
+      >{i}</span
+    >
+  {/each}
+  <br />
+  {#each doc.textWithAnnotations as { char, charAnnotations }, i}
+    <span
+      class="inline-block font-mono text-xl p-3 bg-white dark:bg-slate-700 rounded-md mr-2 w-10 h-12 text-center {charAnnotations
+        .map((a) => a.className)
+        .join(' ')}"
+    >
+      {@html char === ' ' ? '&#160;' : char}
+    </span>
+  {/each}
+
+  <div class="relative mt-3 bg-slate-300">
+    {#each nonEmptyAnnotations(doc.annotations) as annotation, i}
+      <span
+        class="absolute font-mono border-{colors[i]}-200 dark:border-{colors[
+          i
+        ]}-700 border-2 bg-{colors[i]}-50 dark:bg-{colors[
+          i
+        ]}-600 rounded-md p-1 font-mono overflow-hidden"
+        style="left: {annotation.start * 48}px; width: {(annotation.end - annotation.start) * 48 -
+          8}px; top: {i * 48}px;"
+      >
+        {annotation.type}: [{annotation.start}..{annotation.end}]
+      </span>
+    {/each}
+  </div>
+</div>
+
 <div class="mb-4 border-gray-300 dark:border-gray-600 border-2 rounded-md p-3">
   <p class="font-mono px-2 mb-1 text-xl">Text Content</p>
-  <input bind:value={doc.text} class="font-mono w-full p-2 mb-2 rounded-md dark:bg-slate-600" />
+  <input
+    value={doc.text}
+    on:input={(e) => {
+      doc.text = e.target.value
+      recomputeDoc()
+    }}
+    class="font-mono w-full p-2 mb-2 rounded-md dark:bg-slate-600"
+  />
 
   <p class="font-mono px-2 mb-1 text-xl">
     Annotations
@@ -136,39 +202,4 @@
       </button>
     </div>
   {/each}
-</div>
-
-<p class="font-mono px-2 mb-1 text-xl">Standoff Markup</p>
-<div class="mb-1 pb-1 overflow-x-auto whitespace-nowrap min-h-screen">
-  {#each doc.text.split('') as _, i}
-    <span class="font-mono text-gray-300 inline-block w-10 mr-2 text-center dark:text-gray-500"
-      >{i}</span
-    >
-  {/each}
-  <br />
-  {#each doc.textWithAnnotations as { char, charAnnotations }, i}
-    <span
-      class="inline-block font-mono text-xl p-3 bg-white dark:bg-slate-700 rounded-md mr-2 w-10 h-12 text-center {charAnnotations
-        .map((a) => a.className)
-        .join(' ')}"
-    >
-      {@html char === ' ' ? '&#160;' : char}
-    </span>
-  {/each}
-
-  <div class="relative mt-3 bg-slate-300">
-    {#each nonEmptyAnnotations(doc.annotations) as annotation, i}
-      <span
-        class="absolute font-mono border-{colors[i]}-200 dark:border-{colors[
-          i
-        ]}-700 border-2 bg-{colors[i]}-50 dark:bg-{colors[
-          i
-        ]}-600 rounded-md p-1 font-mono overflow-hidden"
-        style="left: {annotation.start * 48}px; width: {(annotation.end - annotation.start) * 48 -
-          8}px; top: {i * 48}px;"
-      >
-        {annotation.type}: [{annotation.start}..{annotation.end}]
-      </span>
-    {/each}
-  </div>
 </div>
