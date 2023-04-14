@@ -25,7 +25,7 @@
     console.log(annotationIndex, key)
     annotations[annotationIndex][key] = (e.target as HTMLInputElement).value
     annotations = annotations
-    textContent = 'something'
+    textContent = textContent
   }
 
   const classesByIndex = (index: number): string => {
