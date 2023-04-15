@@ -1,24 +1,6 @@
 <script lang="ts">
-  // TYPES ===================================
-  type AnnotationTypes = 'bold' | 'italic' | 'comment'
-
-  type Mark = {
-    start: number
-    end: number
-    type: AnnotationTypes
-  }
-  type Doc = {
-    text: string
-    annotations: Mark[]
-    textWithAnnotations: { char: string; charAnnotations: Annotation[] }[]
-  }
-  type Annotation = {
-    type: AnnotationTypes
-    tag: string
-    className: string
-  }
-
-  // INITIAL STATE ===========================
+  import type { Annotation, Doc, Mark } from '../lib/types'
+  import { docToHtml } from '../lib/util'
 
   const knownAnnotations: Annotation[] = [
     { type: 'bold', tag: 'strong', className: 'font-bold' },
@@ -111,12 +93,29 @@
 
 <p class="font-mono px-2 mb-1 text-xl">
   Markup Type:
-  <span><button class="" on:click={(e) => (markupToggle = 'standoff')}>Standoff</button></span>
-  <span class="text-gray-400"
-    ><button class="" on:click={() => (markupToggle = 'html')}>HTML</button></span
+  <span class={markupToggle !== 'standoff' ? 'text-gray-400' : ''}
+    ><button
+      class="p-2 font-mono rounded-md bg-gray-200 dark:bg-slate-700 hover:bg-slate-300 hover:dark:bg-slate-600"
+      on:click={(e) => (markupToggle = 'standoff')}>Standoff</button
+    ></span
+  >
+  <span class={markupToggle !== 'html' ? 'text-gray-400' : ''}
+    ><button
+      class="p-2 font-mono rounded-md bg-gray-200 dark:bg-slate-700 hover:bg-slate-300 hover:dark:bg-slate-600"
+      on:click={() => (markupToggle = 'html')}>HTML</button
+    ></span
   >
 </p>
-<div class="mb-1 pb-1 overflow-x-auto whitespace-nowrap h-64">
+<div
+  class="mb-1 pb-1 overflow-x-auto whitespace-nowrap h-64 {markupToggle === 'html' ? '' : 'hidden'}"
+>
+  <pre class="font-mono p-2 text-lg">{docToHtml(doc)}</pre>
+</div>
+<div
+  class="mb-1 pb-1 overflow-x-auto whitespace-nowrap h-64 {markupToggle === 'standoff'
+    ? ''
+    : 'hidden'}"
+>
   {#each doc.text.split('') as _, i}
     <span class="font-mono text-gray-300 inline-block w-10 mr-2 text-center dark:text-gray-500"
       >{i}</span
