@@ -1,7 +1,7 @@
 import type { Doc } from './types'
 import type { AnnotationJSON } from '@atjson/document'
 import HTMLRenderer from '@atjson/renderer-html'
-import OffsetSource, { Bold, Heading, Italic, Paragraph, Section } from '@atjson/offset-annotations'
+import OffsetSource, { Bold, Italic, Section } from '@atjson/offset-annotations'
 
 export class JDocument extends OffsetSource {
   static schema = [Bold, Italic, Section]
@@ -9,17 +9,14 @@ export class JDocument extends OffsetSource {
 
 export const docToHtml = (doc: Doc) => {
   const atjsonMarks: AnnotationJSON[] = []
-  // const section = new Section({
-  //   start: 0,
-  //   end: jdom.text.length,
-  //   attributes: {
-  //     startOffset: minReadingOrderOffset,
-  //     endOffset: maxReadingOrderOffset
-  //   }
-  // })
-  // atjsonMarks.push(section)
 
   doc.annotations.forEach((annotation) => {
+    if (typeof annotation.start !== 'number' || typeof annotation.end !== 'number') {
+      return
+    }
+    if (annotation.start === annotation.end) {
+      return
+    }
     if (annotation.type === 'bold') {
       const elem = new Bold({
         start: annotation.start,

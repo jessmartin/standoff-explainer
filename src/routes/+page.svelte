@@ -30,7 +30,6 @@
       if (possibleAnnotationsForChar.length > 0) {
         possibleAnnotationsForChar.forEach((a) => {
           const annotation = knownAnnotations.find((k) => k.type === a.type)
-          console.log(annotation)
           if (annotation) {
             charAnnotations.push(annotation)
           }
@@ -64,6 +63,10 @@
           offsetValue = doc.text.length
         } else if (key === 'start' && offsetValue < 0) {
           offsetValue = 0
+        } else if (key === 'start' && offsetValue > annotation.end) {
+          offsetValue = annotation.end
+        } else if (key === 'end' && offsetValue < annotation.start) {
+          offsetValue = annotation.start
         }
         annotation[key] = offsetValue
       }
@@ -150,14 +153,14 @@
 </div>
 
 <div class="mb-4 border-gray-300 dark:border-gray-600 border-2 rounded-md p-3">
-  <p class="font-mono px-2 mb-1 text-xl">Text Content</p>
+  <p class="font-mono px-2 mb-1 text-xl">Plain Text</p>
   <input
     value={doc.text}
     on:input={(e) => {
       doc.text = e.target.value
       recomputeDoc()
     }}
-    class="font-mono w-full p-2 mb-2 rounded-md dark:bg-slate-600"
+    class="font-mono w-full p-2 mb-4 rounded-md dark:bg-slate-600"
   />
 
   <p class="font-mono px-2 mb-1 text-xl">
