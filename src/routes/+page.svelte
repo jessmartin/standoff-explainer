@@ -15,14 +15,18 @@
 
   let doc: Doc = {
     text: urlParams.get('text') || 'The fox jumped.',
-    annotations: parsedAnnotations || [
+    annotations: parsedAnnotations,
+    textWithAnnotations: []
+  }
+  if (parsedAnnotations.length === 0) {
+    doc.annotations = [
       { start: 0, end: 7, type: 'bold' },
       { start: 5, end: 15, type: 'italic' },
       { start: 0, end: 3, type: 'comment' },
       { start: 8, end: 15, type: 'underline' }
-    ],
-    textWithAnnotations: []
+    ]
   }
+
   const nonEmptyAnnotations = (annotations: Mark[]) =>
     doc.annotations.filter((a) => a.start !== a.end)
 
