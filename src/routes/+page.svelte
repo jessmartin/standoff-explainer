@@ -8,9 +8,14 @@
     { type: 'underline', tag: 'u', className: 'underline' },
     { type: 'comment', tag: 'span', className: 'text-gray-400' }
   ]
+  // get the text content from the query line of the url
+  const urlParams = new URLSearchParams(window.location.search)
+  const annotationsFromUrl = urlParams.get('annotations')
+  const parsedAnnotations = JSON.parse(annotationsFromUrl || '[]')
+
   let doc: Doc = {
-    text: 'The fox jumped.',
-    annotations: [
+    text: urlParams.get('text') || 'The fox jumped.',
+    annotations: parsedAnnotations || [
       { start: 0, end: 7, type: 'bold' },
       { start: 5, end: 15, type: 'italic' },
       { start: 0, end: 3, type: 'comment' },
@@ -20,9 +25,11 @@
   }
   const nonEmptyAnnotations = (annotations: Mark[]) =>
     doc.annotations.filter((a) => a.start !== a.end)
+
   const getAnnotations = (index: number): Mark[] => {
     return nonEmptyAnnotations(doc.annotations).filter((a) => a.start <= index && a.end > index)
   }
+
   const computeTextWithAnnotations = (textContent: string, annotations: Mark[]) => {
     let textWithAnnotations: { char: string; charAnnotations: Annotation[] }[] = []
     for (let i = 0; i < textContent.split('').length; i++) {
@@ -76,10 +83,18 @@
       annotation[key] = (e.target as HTMLInputElement).value
     }
     doc.annotations = doc.annotations
+    updateQuery()
     recomputeDoc()
   }
 
   let markupToggle: 'standoff' | 'html' | 'markdown' = 'standoff'
+
+  const updateQuery = () => {
+    const url = new URL(window.location.href)
+    url.searchParams.set('annotations', JSON.stringify(doc.annotations))
+    url.searchParams.set('text', doc.text)
+    window.history.replaceState({}, '', url.toString())
+  }
 </script>
 
 <svelte:head>
@@ -173,6 +188,7 @@
     value={doc.text}
     on:input={(e) => {
       doc.text = e.target.value
+      updateQuery()
       recomputeDoc()
     }}
     class="font-mono w-full p-2 mb-4 rounded-md dark:bg-slate-600"
@@ -185,6 +201,7 @@
       on:click={() => {
         doc.annotations.push({ start: 0, end: 0, type: 'bold' })
         recomputeDoc()
+        updateQuery()
       }}
       class="text-sm p-2 font-mono rounded-md bg-gray-200 dark:bg-slate-700 text-gray-500 dark:text-gray-300 hover:bg-slate-300 hover:dark:bg-slate-600"
       >Add Annotation</button
@@ -212,6 +229,7 @@
         on:click={() => {
           doc.annotations = doc.annotations.filter((a) => a !== annotation)
           recomputeDoc()
+          updateQuery()
         }}
         class="w-1/8 p-2 bg-gray-200 dark:bg-slate-700 text-gray-500 dark:text-gray-300 hover:bg-slate-300 hover:dark:bg-slate-600 font-mono rounded-md text-sm "
       >
