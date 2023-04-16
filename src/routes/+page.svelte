@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Annotation, Doc, Mark } from '../lib/types'
-  import { docToHtml } from '../lib/util'
+  import { docToHtml, docToMarkdown } from '../lib/util'
 
   const knownAnnotations: Annotation[] = [
     { type: 'bold', tag: 'strong', className: 'font-bold' },
@@ -77,7 +77,7 @@
     recomputeDoc()
   }
 
-  let markupToggle: 'standoff' | 'html' = 'standoff'
+  let markupToggle: 'standoff' | 'html' | 'markdown' = 'standoff'
 </script>
 
 <svelte:head>
@@ -108,7 +108,20 @@
       on:click={() => (markupToggle = 'html')}>HTML</button
     ></span
   >
+  <span class={markupToggle !== 'markdown' ? 'text-gray-400' : ''}
+    ><button
+      class="p-2 font-mono rounded-md bg-gray-200 dark:bg-slate-700 hover:bg-slate-300 hover:dark:bg-slate-600"
+      on:click={() => (markupToggle = 'markdown')}>Markdown</button
+    ></span
+  >
 </p>
+<div
+  class="mb-1 pb-1 overflow-x-auto whitespace-nowrap h-64 {markupToggle === 'markdown'
+    ? ''
+    : 'hidden'}"
+>
+  <pre class="font-mono p-2 text-lg">{docToMarkdown(doc)}</pre>
+</div>
 <div
   class="mb-1 pb-1 overflow-x-auto whitespace-nowrap h-64 {markupToggle === 'html' ? '' : 'hidden'}"
 >

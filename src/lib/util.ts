@@ -1,13 +1,14 @@
 import type { Doc } from './types'
 import type { AnnotationJSON } from '@atjson/document'
 import HTMLRenderer from '@atjson/renderer-html'
+import MarkdownRenderer from '@atjson/renderer-commonmark'
 import OffsetSource, { Bold, Italic, Section } from '@atjson/offset-annotations'
 
 export class JDocument extends OffsetSource {
   static schema = [Bold, Italic, Section]
 }
 
-export const docToHtml = (doc: Doc) => {
+const docToAtjsonDoc = (doc: Doc): JDocument => {
   const atjsonMarks: AnnotationJSON[] = []
 
   doc.annotations.forEach((annotation) => {
@@ -36,6 +37,17 @@ export const docToHtml = (doc: Doc) => {
     annotations: atjsonMarks
   })
 
+  return atjsonDoc
+}
+
+export const docToHtml = (doc: Doc) => {
+  const atjsonDoc = docToAtjsonDoc(doc)
   const html = HTMLRenderer.render(atjsonDoc)
   return html
+}
+
+export const docToMarkdown = (doc: Doc) => {
+  const atjsonDoc = docToAtjsonDoc(doc)
+  const markdown = MarkdownRenderer.render(atjsonDoc)
+  return markdown
 }

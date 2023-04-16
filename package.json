@@ -39,6 +39,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@atjson/document": "^0.29.1"
+    "@atjson/document": "^0.29.1",
+    "@atjson/renderer-commonmark": "^0.28.4"
   }
 }
