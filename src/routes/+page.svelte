@@ -5,6 +5,7 @@
   const knownAnnotations: Annotation[] = [
     { type: 'bold', tag: 'strong', className: 'font-bold' },
     { type: 'italic', tag: 'em', className: 'italic' },
+    { type: 'underline', tag: 'u', className: 'underline' },
     { type: 'comment', tag: 'span', className: 'text-gray-400' }
   ]
   let doc: Doc = {
@@ -12,7 +13,8 @@
     annotations: [
       { start: 0, end: 7, type: 'bold' },
       { start: 5, end: 15, type: 'italic' },
-      { start: 0, end: 3, type: 'comment' }
+      { start: 0, end: 3, type: 'comment' },
+      { start: 8, end: 15, type: 'underline' }
     ],
     textWithAnnotations: []
   }

@@ -2,10 +2,10 @@ import type { Doc } from './types'
 import type { AnnotationJSON } from '@atjson/document'
 import HTMLRenderer from '@atjson/renderer-html'
 import MarkdownRenderer from '@atjson/renderer-commonmark'
-import OffsetSource, { Bold, Italic, Section } from '@atjson/offset-annotations'
+import OffsetSource, { Bold, Italic, Section, Underline } from '@atjson/offset-annotations'
 
 export class JDocument extends OffsetSource {
-  static schema = [Bold, Italic, Section]
+  static schema = [Bold, Italic, Section, Underline]
 }
 
 const docToAtjsonDoc = (doc: Doc): JDocument => {
@@ -26,6 +26,12 @@ const docToAtjsonDoc = (doc: Doc): JDocument => {
       atjsonMarks.push(elem)
     } else if (annotation.type === 'italic') {
       const elem = new Italic({
+        start: annotation.start,
+        end: annotation.end
+      })
+      atjsonMarks.push(elem)
+    } else if (annotation.type === 'underline') {
+      const elem = new Underline({
         start: annotation.start,
         end: annotation.end
       })

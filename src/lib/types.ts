@@ -1,4 +1,4 @@
-export type AnnotationTypes = 'bold' | 'italic' | 'comment'
+export type AnnotationTypes = 'bold' | 'italic' | 'comment' | 'underline'
 export type Mark = {
   start: number
   end: number
