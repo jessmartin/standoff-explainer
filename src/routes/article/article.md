@@ -1,3 +1,8 @@
+<script>
+  console.log("testing")
+  import StandoffVisualizer from '$lib/StandoffVisualizer.svelte'
+</script>
+
 # Standoff Markup
 
 Text is one of the most basic primitives for computers and humans. It's delightfully simply yet devilishly complicated.
@@ -46,3 +51,5 @@ Markdown may look less complicated than HTML, but Markdown is also inherently a 
 - [ ] Todo this visualization
 
 Which brings us to the third approach: store the formatting instructions separate from the plain text. In this case, each of the formatting instructions can be represented as a range that begins with a specific character and ends with a character. The plain text remains untouched, and we have a list of ranges, like so:
+
+<StandoffVisualizer />
