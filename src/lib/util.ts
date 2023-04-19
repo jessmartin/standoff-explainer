@@ -8,6 +8,10 @@ export class JDocument extends OffsetSource {
   static schema = [Bold, Italic, Section, Underline]
 }
 
+export class MDDocument extends OffsetSource {
+  static schema = [Bold, Italic]
+}
+
 const docToAtjsonDoc = (doc: Doc): JDocument => {
   const atjsonMarks: AnnotationJSON[] = []
 

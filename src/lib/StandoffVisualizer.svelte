@@ -92,16 +92,6 @@
   <title>Standoff Markup Explainer</title>
 </svelte:head>
 
-<span class="text-gray-400 fixed bottom-0 right-0 font-mono text-sm p-2"
-  >An experiment by <a class="hover:underline hover:text-gray-500" href="https://jessmart.in"
-    >Jess Martin</a
-  >.
-  <a
-    class="hover:underline hover:text-gray-500"
-    href="https://github.com/jessmartin/standoff-explainer">Source code on GitHub</a
-  >.
-</span>
-
 <div class="mb-1 pb-1 overflow-x-auto whitespace-nowrap h-64">
   {#each doc.text.split('') as _, i}
     <span class="font-mono text-gray-300 inline-block w-10 mr-2 text-center dark:text-gray-500"

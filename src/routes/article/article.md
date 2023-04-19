@@ -1,6 +1,7 @@
 <script>
   console.log("testing")
   import StandoffVisualizer from '$lib/StandoffVisualizer.svelte'
+  import MarkdownVisualizer from '$lib/MarkdownVisualizer.svelte'
 </script>
 
 # Standoff Markup
@@ -23,9 +24,7 @@ There are three broad approaches we might consider:
 
 An example of embedding the formatting into the text itself would be Markdown. If we wanted to add some bold and italic to `The quick brown fox`, we could use Markdown like so:
 
-```markdown
-The _quick_ **brown** fox.
-```
+<MarkdownVisualizer/>
 
 What about embedding the text in a data structure? This is basically how HTML works:
 
