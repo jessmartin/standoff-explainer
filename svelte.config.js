@@ -7,7 +7,7 @@ import mdsvexConfig from './mdsvex.config.js'
 const config = {
   extensions: ['.svelte', ...mdsvexConfig.extensions],
   preprocess: [
-    vitePreprocess({ typescript: true, scss: true }),
+    vitePreprocess(),
     mdsvex(mdsvexConfig)
   ],
   kit: {

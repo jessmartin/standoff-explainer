@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { AnnotationJSON } from '@atjson/document'
-  import { MDDocument, docToMarkdown } from './util'
-  import { Bold, Italic } from '@atjson/offset-annotations'
+  import OffsetSource, { Bold, Italic } from '@atjson/offset-annotations'
   import MarkdownRenderer from '@atjson/renderer-commonmark'
   import HTMLRenderer from '@atjson/renderer-html'
 
@@ -9,7 +8,7 @@
     new Bold({ start: 10, end: 15 }),
     new Italic({ start: 4, end: 9 })
   ]
-  let atjsonDoc = new MDDocument({
+  let atjsonDoc = new OffsetSource({
     content: 'The quick brown fox.',
     annotations: atjsonMarks
   })

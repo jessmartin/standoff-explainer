@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@atjson/offset-annotations": "^0.46.5",
+    "@atjson/renderer-commonmark": "^0.28.4",
     "@atjson/renderer-html": "^0.29.4",
     "@playwright/test": "^1.28.1",
     "@sveltejs/adapter-auto": "^2.0.0",
@@ -39,8 +40,5 @@
     "vitest": "^0.25.3"
   },
   "type": "module",
-  "dependencies": {
-    "@atjson/document": "^0.29.1",
-    "@atjson/renderer-commonmark": "^0.28.4"
-  }
+  "dependencies": {}
 }
